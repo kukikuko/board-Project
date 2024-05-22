@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<script th:inline="javascript">
+
+    window.onload = () => {
+        const message = [[ ${ msg.getMsg()} ]];
+        if (message) {
+            alert(message);
+        }
+
+        window.location.href = [[ ${ msg.getUrl()}]];
+    }
+</script>
+</body>
+</html>
