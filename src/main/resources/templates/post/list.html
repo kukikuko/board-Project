@@ -1,5 +1,6 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -74,6 +75,7 @@
     </style>
 </head>
 <body>
+    <div th:replace="/common/header :: nav"></div>
     <div class="container">
         <h1>게시판 페이지</h1>
         <div>
@@ -104,7 +106,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="button-container">
+        <div class="button-container" sec:authorize="authenticated">
             <button class="write-button" onclick="location.href='/post/write'">글쓰기</button>
         </div>
         <div class="pagination">

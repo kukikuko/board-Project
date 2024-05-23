@@ -2,8 +2,12 @@ package com.project.board.boardProject.controller;
 
 import com.project.board.boardProject.dto.MsgDto;
 import com.project.board.boardProject.dto.PostDto;
+import com.project.board.boardProject.dto.UserDto;
+import com.project.board.boardProject.dto.UserSessionDto;
 import com.project.board.boardProject.entity.Post;
+import com.project.board.boardProject.service.MessageService;
 import com.project.board.boardProject.service.PostService;
+import com.project.board.boardProject.vo.LoginUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,7 +28,12 @@ public class PostController {
 
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC)
-            Pageable pageable) {
+            Pageable pageable, @LoginUser UserSessionDto user) {
+
+        if (user != null) {
+            model.addAttribute("user", user);
+        }
+
         Page<Post> postPage = postService.pageList(pageable);
         model.addAttribute("posts", postPage.getContent());
         model.addAttribute("page", postPage);
@@ -32,7 +41,11 @@ public class PostController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable Long id) {
+    public String detail(Model model, @PathVariable Long id, @LoginUser UserSessionDto user) {
+
+        if (user != null) {
+            model.addAttribute("user", user);
+        }
 
         PostDto.Response post = postService.findById(id);
         model.addAttribute("post", post);
@@ -42,7 +55,11 @@ public class PostController {
 
     @GetMapping("/search")
     public String search(Model model, String keyword, @PageableDefault(sort = "id", direction = Sort.Direction.DESC)
-            Pageable pageable) {
+            Pageable pageable, @LoginUser UserSessionDto user) {
+
+        if (user != null) {
+            model.addAttribute("user", user);
+        }
 
         Page<Post> postPage = postService.findByTitleContaining(keyword, pageable);
         model.addAttribute("keyword", keyword);
@@ -53,21 +70,26 @@ public class PostController {
     }
 
     @GetMapping("/write")
-    public String save() {
+    public String save(Model model, @LoginUser UserSessionDto user) {
+
+        if (user != null) {
+            model.addAttribute("user", user);
+        }
+
         return "post/write";
     }
 
     @PostMapping("/write")
-    public String save(PostDto.Request postDto, Model model) {
+    public String save(PostDto.Request postDto, Model model, @LoginUser UserSessionDto user) {
+
+        if (user != null) {
+            model.addAttribute("user", user);
+        }
+
         postService.save(postDto);
         MsgDto msgDto = new MsgDto("글쓰기 완료", "/post/list", RequestMethod.GET);
 
-        return showAlert(msgDto, model);
-    }
-
-    private String showAlert(final MsgDto msgDto, Model model) {
-        model.addAttribute("msg", msgDto);
-        return "common/alert";
+        return new MessageService().showAlert(msgDto, model);
     }
 
 }
