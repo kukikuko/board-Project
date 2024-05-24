@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
@@ -26,6 +27,8 @@ import java.io.IOException;
 public class SecurityConfig {
 
     private final AuthenticationSuccessHandler customSuccessHandler;
+    private final AuthenticationFailureHandler customFailureHandler;
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -50,6 +53,7 @@ public class SecurityConfig {
                     form.loginProcessingUrl("/auth/login");
                     form.defaultSuccessUrl("/");
                     form.successHandler(customSuccessHandler);
+                    form.failureHandler(customFailureHandler);
                 })
                 .logout((logout) -> {
                     logout.logoutUrl("/auth/logout");
