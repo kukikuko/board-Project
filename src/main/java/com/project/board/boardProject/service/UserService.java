@@ -45,6 +45,16 @@ public class UserService {
         return validatorResult;
     }
 
+    @Transactional
+    public void modify(UserDto.Request userDto) {
+        User user = userRepository.findById(userDto.toEntity().getId()).orElseThrow(() ->
+                new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+
+        String encPwd = encoder.encode(userDto.getPassword());
+        user.modify(userDto.getNickname(), encPwd);
+
+    }
+
 }
 
 

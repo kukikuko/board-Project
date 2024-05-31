@@ -1,0 +1,58 @@
+const header = $("meta[name='_csrf_header']").attr('content');
+const token = $("meta[name='_csrf']").attr('content');
+
+const main = {
+    init: function () {
+        const _this = this;
+        $('#modify').on('click', function () {
+            _this.modify();
+        });
+    },
+
+    modify: function () {
+        const data = {
+            id: $('#id').val(),
+            modifiedDate: $('#modifiedDate').val(),
+            username: $('#username').val(),
+            password: $('#password').val(),
+            nickname: $('#nickname').val()
+        }
+        if (!data.nickname || data.nickname.trim() === "" || !data.password || data.password.trim() === "") {
+            console.log(data.nickname);
+            console.log(data.password);
+            alert("공백 또는 입력하지 않은 부분이 있습니다.");
+            return false;
+        } else if (!/(?=.*[a-zA-Z])(?=.*[0-9])(?=.*\W)(?=\S+$).{8,16}/.test(data.password)) {
+            alert("비밀번호는 8~16자 영문 대소문자, 숫자, 특수문자를 사용하세요.");
+            $('#password').focus();
+            return false;
+        } else if(!/^[ㄱ-ㅎ가-힣a-zA-Z0-9-_]{2,10}$/.test(data.nickname)) {
+            alert("닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
+            $('#nickname').focus();
+            return false;
+        }
+        const con_check = confirm("수정하시겠습니까?");
+        if(con_check === true) {
+            $.ajax({
+                type : "PUT",
+                url : "/api/user",
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                contentType : "application/json; charset=UTF-8",
+                data : JSON.stringify(data)
+            }).done(function () {
+                alert("회원수정이 완료되었습니다.");
+                window.location.href = "/";
+            }).fail(function (error) {
+                if(error.status === 5000) {
+                    alert("이미 사용중인 닉네임입니다.");
+                    $('#nickname').focus();
+                } else {
+                    alert(JSON.stringify(error));
+                }
+            })
+        }
+    }
+}
+main.init();
