@@ -1,5 +1,6 @@
 package com.project.board.boardProject.config;
 
+import com.project.board.boardProject.service.CustomOAuth2UserService;
 import com.project.board.boardProject.service.CustomUserDetailsService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final AuthenticationSuccessHandler customSuccessHandler;
     private final AuthenticationFailureHandler customFailureHandler;
+    private final CustomOAuth2UserService customOauth2UserService;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
@@ -74,6 +76,9 @@ public class SecurityConfig {
                     logout.logoutSuccessUrl("/");
                     logout.invalidateHttpSession(true);
                     logout.deleteCookies("JSESSIONID", "remember-me");
+                })
+                .oauth2Login((oauth2) -> { oauth2
+                        .userInfoEndpoint(endpoint -> endpoint.userService(customOauth2UserService));
                 })
                 .build();
     }
