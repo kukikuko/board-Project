@@ -48,6 +48,7 @@ public class PostController {
         }
 
         PostDto.Response post = postService.findById(id);
+        postService.updateView(id);
         model.addAttribute("post", post);
 
         return "post/detail";
@@ -86,7 +87,7 @@ public class PostController {
             model.addAttribute("user", user);
         }
 
-        postService.save(postDto);
+        postService.save(postDto, user.getNickname());
         MsgDto msgDto = new MsgDto("글쓰기 완료", "/post/list", RequestMethod.GET);
 
         return new MessageService().showAlert(msgDto, model);

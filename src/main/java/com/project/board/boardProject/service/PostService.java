@@ -5,7 +5,9 @@ import com.project.board.boardProject.entity.Post;
 import com.project.board.boardProject.entity.User;
 import com.project.board.boardProject.exception.DataNotFoundException;
 import com.project.board.boardProject.repository.PostRepository;
+import com.project.board.boardProject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,11 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class PostService {
 
     private final PostRepository postRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
 
     @Transactional(readOnly = true)
@@ -38,13 +41,22 @@ public class PostService {
         return postRepository.findByTitleContaining(keyword, pageable);
     }
 
-    public void save(PostDto.Request postDto) {
-        User user = userService.findById(1L);
+    @Transactional
+    public int updateView(Long id) {
+        return postRepository.updateView(id);
+    }
+
+    public void save(PostDto.Request postDto, String nickname) {
+        User user = userRepository.findByNickname(nickname);
         postDto.setUser(user);
         postDto.setWriter(user.getNickname());
 
+        log.info("postDto {}", postDto);
+
         postRepository.save(postDto.toEntity());
     }
+
+
 
 }
 
