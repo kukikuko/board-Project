@@ -3,26 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link th:href="@{/css/detail.css}" rel="stylesheet" />
 </head>
 <body>
-    <h1 th:text="${post.getTitle()}">디테일 페이지</h1>
-    <div>
-        <table>
-            <thead>
-                <tr>
-                    <th>작성자</th>
-                    <th>작성일시</th>
-                    <th>내용</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td th:text="${post.getWriter()}"></td>
-                    <td th:text="${post.getModifiedDate()}"></td>
-                    <td th:text="${post.getContent()}"></td>
-                </tr>
-            </tbody>
-        </table>
+    <div id="posts_list">
+        <div>
+            <form class="card">
+                <div>
+                    <label for="id">번호 : [[${post.id}]]</label>
+                    <input type="hidden" id="id" value="{{posts.id}}">
+                    <label for="createdDate">[[${post.createdDate}]]</label>
+                </div>
+                <div>
+                    <label for="writer">작성자 : [[${post.writer}]]</label>
+                    <label for="view"><i> 조회수 : [[${post.view}]]</i></label>
+                </div>
+                <div class="card-body">
+                    <label for="title">제목</label>
+                    <input type="text" id="title" th:value="${post.title}" readonly><br/>
+                    <label for="content">내용</label><textarea rows="5" id="content" readonly>[[${post.content}]]</textarea>
+                </div>
+            </form>
+
+            <a th:href="@{/post/list}" role="button">목록</a>
+            <a  th:if="${writer}" href="/posts/update/{{id}}" role="button">수정</a>
+            <button th:if="${writer}" type="button" onclick="" id="btn-delete">삭제</button>
+        </div>
     </div>
 </body>
 </html>

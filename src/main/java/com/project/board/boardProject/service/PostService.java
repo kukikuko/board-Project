@@ -46,14 +46,16 @@ public class PostService {
         return postRepository.updateView(id);
     }
 
-    public void save(PostDto.Request postDto, String nickname) {
+    public Long save(PostDto.Request postDto, String nickname) {
         User user = userRepository.findByNickname(nickname);
         postDto.setUser(user);
         postDto.setWriter(user.getNickname());
 
         log.info("postDto {}", postDto);
 
-        postRepository.save(postDto.toEntity());
+        Post post = postDto.toEntity();
+        postRepository.save(post);
+        return post.getId();
     }
 
 

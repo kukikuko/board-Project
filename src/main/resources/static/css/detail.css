@@ -1,0 +1,90 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+#posts_list {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+/* Card Styles */
+.card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Element Styles */
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #f4f4f4;
+}
+
+input[type="text"]:read-only,
+textarea:read-only {
+    background: #e9ecef;
+    color: #495057;
+}
+
+input[type="hidden"] {
+    display: none;
+}
+
+/* Button Styles */
+a[role="button"],
+button {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+a[role="button"]:hover,
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Conditional Styles */
+[th\:if] {
+    display: none;
+}
+
+[th\:if="true"] {
+    display: inline-block;
+}
+
+/* Additional Spacing for Textarea */
+textarea {
+    resize: none;
+}

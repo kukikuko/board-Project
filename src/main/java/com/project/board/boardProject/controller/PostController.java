@@ -1,9 +1,6 @@
 package com.project.board.boardProject.controller;
 
-import com.project.board.boardProject.dto.MsgDto;
-import com.project.board.boardProject.dto.PostDto;
-import com.project.board.boardProject.dto.UserDto;
-import com.project.board.boardProject.dto.UserSessionDto;
+import com.project.board.boardProject.dto.*;
 import com.project.board.boardProject.entity.Post;
 import com.project.board.boardProject.service.MessageService;
 import com.project.board.boardProject.service.PostService;
@@ -17,6 +14,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequestMapping("/post")
@@ -41,15 +40,25 @@ public class PostController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable Long id, @LoginUser UserSessionDto user) {
+    public String detail(@PathVariable Long id, @LoginUser UserSessionDto user, Model model) {
 
-        if (user != null) {
-            model.addAttribute("user", user);
+        PostDto.Response dto = postService.findById(id);
+        List<CommentDto.Response> comments = dto.getComments();
+
+        if(comments != null && !comments.isEmpty()) {
+            model.addAttribute("comments", comments);
         }
 
-        PostDto.Response post = postService.findById(id);
+        if (user != null) {
+            model.addAttribute("user", user.getNickname());
+
+            if(dto.getUserId().equals(user.getId())) {
+                model.addAttribute("writer", true);
+            }
+        }
+
         postService.updateView(id);
-        model.addAttribute("post", post);
+        model.addAttribute("post", dto);
 
         return "post/detail";
     }

@@ -1,8 +1,12 @@
 package com.project.board.boardProject.dto;
 
+import com.project.board.boardProject.entity.Comment;
 import com.project.board.boardProject.entity.Post;
 import com.project.board.boardProject.entity.User;
 import lombok.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PostDto {
 
@@ -49,7 +53,7 @@ public class PostDto {
         private final String createdDate, modifiedDate;
         private final int view;
         private final Long userId;
-//        private final List<CommentDto.Response> comments;
+        private final List<CommentDto.Response> comments;
 
         /* Entity -> Dto*/
         public Response(Post posts) {
@@ -61,7 +65,7 @@ public class PostDto {
             this.modifiedDate = posts.getModifiedDate();
             this.view = posts.getView();
             this.userId = posts.getUser().getId();
-//            this.comments = posts.getComments().stream().map(CommentDto.Response::new).collect(Collectors.toList());
+            this.comments = posts.getComments().stream().map(CommentDto.Response::new).collect(Collectors.toList());
         }
     }
 }

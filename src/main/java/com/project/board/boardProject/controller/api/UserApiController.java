@@ -1,4 +1,4 @@
-package com.project.board.boardProject.controller;
+package com.project.board.boardProject.controller.api;
 
 import com.project.board.boardProject.dto.UserDto;
 import com.project.board.boardProject.service.UserService;
