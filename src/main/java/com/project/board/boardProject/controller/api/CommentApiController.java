@@ -20,4 +20,17 @@ public class CommentApiController {
                     , @LoginUser UserSessionDto user) {
         return ResponseEntity.ok(commentService.commentSave(user.getNickname(), postId, dto));
     }
+
+    @PutMapping("/post/{postId}/comments/{commentId}")
+    public ResponseEntity<Long> commentUpdate(@PathVariable Long postId, @PathVariable Long commentId
+                    , @RequestBody CommentDto.Request dto) {
+
+        return ResponseEntity.ok(commentId);
+    }
+
+    @DeleteMapping("post/{postId}/comments/{commentId}")
+    public ResponseEntity<Long> commentDelete(@PathVariable Long postId, @PathVariable Long commentId) {
+
+        return ResponseEntity.ok(commentId);
+    }
 }

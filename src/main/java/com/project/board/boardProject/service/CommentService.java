@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class CommentService {
@@ -31,6 +33,21 @@ public class CommentService {
         commentRepository.save(comment);
 
         return comment.getId();
+    }
+
+    @Transactional
+    public void commentUpdate(Long postId, Long commentId, CommentDto.Request dto) {
+        Comment comment = commentRepository.findByPostIdAndId(postId, commentId)
+                .orElseThrow(()-> new IllegalArgumentException("해당 댓글이 존재하지 않습니다." + commentId));
+
+        comment.update(dto.getComment());
+    }
+
+    @Transactional
+    public void commentDelete(Long postId, Long commentId) {
+         Comment comment = commentRepository.findByPostIdAndId(postId, commentId)
+                 .orElseThrow(()-> new IllegalArgumentException("해당 댓글이 존재하지 않습니다." + commentId));
+         commentRepository.delete(comment);
     }
 
 }

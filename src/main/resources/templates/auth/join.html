@@ -1,10 +1,8 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>회원가입</title>
-</head>
-<body>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<th:block layout:fragment="content">
     <h1>회원가입 페이지</h1>
     <div>
         <form th:action="@{/auth/join}" th:object="${userDto}" method="post">
@@ -27,5 +25,5 @@
             <p><input type="submit" value="회원가입"></p>
         </form>
     </div>
-</body>
+</th:block>
 </html>
