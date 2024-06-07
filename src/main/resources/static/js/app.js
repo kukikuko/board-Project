@@ -4,9 +4,47 @@ const token = $("meta[name='_csrf']").attr('content');
 const main = {
     init: function () {
         const _this = this;
+
+        $('#btn-comment-submit').on('click', function () {
+            _this.commentSave();
+        });
+
         $('#modify').on('click', function () {
             _this.modify();
         });
+    },
+
+    commentSave: function () {
+
+        console.log("init")
+
+        const data = {
+            postId: $('#postId').val(),
+            comment: $('#comment').val()
+        }
+
+
+
+        if (!data.comment || data.comment.trim() === "") {
+            alert('공백 또는 입력하지 않은 부분이 있습니다.');
+            return false;
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: `/api/post/${data.postId}/comment`,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data)
+            }).done(function () {
+                alert("댓글이 등록되었습니다.")
+                location.reload();
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+        }
     },
 
     modify: function () {
@@ -26,26 +64,26 @@ const main = {
             alert("비밀번호는 8~16자 영문 대소문자, 숫자, 특수문자를 사용하세요.");
             $('#password').focus();
             return false;
-        } else if(!/^[ㄱ-ㅎ가-힣a-zA-Z0-9-_]{2,10}$/.test(data.nickname)) {
+        } else if (!/^[ㄱ-ㅎ가-힣a-zA-Z0-9-_]{2,10}$/.test(data.nickname)) {
             alert("닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
             $('#nickname').focus();
             return false;
         }
         const con_check = confirm("수정하시겠습니까?");
-        if(con_check === true) {
+        if (con_check === true) {
             $.ajax({
-                type : "PUT",
-                url : "/api/user",
-                beforeSend: function(xhr){
+                type: "PUT",
+                url: "/api/user",
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
-                contentType : "application/json; charset=UTF-8",
-                data : JSON.stringify(data)
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(data)
             }).done(function () {
                 alert("회원수정이 완료되었습니다.");
                 window.location.href = "/";
             }).fail(function (error) {
-                if(error.status === 5000) {
+                if (error.status === 5000) {
                     alert("이미 사용중인 닉네임입니다.");
                     $('#nickname').focus();
                 } else {
@@ -54,5 +92,6 @@ const main = {
             })
         }
     }
-}
+};
+
 main.init();

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
     <link th:href="@{/css/detail.css}" rel="stylesheet" />
 </head>
 <body>
@@ -29,6 +31,11 @@
             <a  th:if="${writer}" href="/posts/update/{{id}}" role="button">수정</a>
             <button th:if="${writer}" type="button" onclick="" id="btn-delete">삭제</button>
         </div>
+        <div th:replace="post/commentList :: comments"></div>
+        <div th:replace="post/commentForm :: commentForm"></div>
     </div>
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" th:src="@{/js/app.js}"></script>
 </body>
 </html>

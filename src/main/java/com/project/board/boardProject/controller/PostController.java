@@ -45,6 +45,8 @@ public class PostController {
         PostDto.Response dto = postService.findById(id);
         List<CommentDto.Response> comments = dto.getComments();
 
+        log.info("comments : {}",comments);
+
         if(comments != null && !comments.isEmpty()) {
             model.addAttribute("comments", comments);
         }
