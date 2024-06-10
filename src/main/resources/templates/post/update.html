@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<th:block layout:fragment="content">
+    <br/>
+    <div id="posts_list">
+        <div class="col-md-12">
+            <form class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <label for="id">번호 : [[${posts.id}]]</label>
+                    <input type="hidden" id="id" value="{{posts.id}}">
+                    <label for="createdDate">[[${posts.createdDate}]]</label>
+                </div>
+                <div class="card-header d-flex justify-content-between">
+                    <label for="writer">작성자 : [[${posts.writer}]]</label>
+                    <label for="view"><i class=" bi bi-eye-fill"> [[${posts.view}]]</i></label>
+                </div>
+                <div class="card-body">
+                    <label for="title">제목</label>
+                    <input type="text" class="form-control" id="title" th:value="${posts.title}">
+                </div>
+
+                <div class="card-body">
+                    <label for="content">내용</label>
+                    <textarea rows="5" class="form-control" id="content" >[[${posts.content}]]</textarea>
+                </div>
+            </form>
+
+            <a th:href="@{/post/detail/{id}(id=${posts.id})}" role="button" class="btn btn-info bi bi-arrow-return-left"> 취소</a>
+            <button type="button" id="update" class="btn btn-primary bi bi-pencil-square">완료</button>
+        </div>
+    </div>
+</th:block>
+</html>

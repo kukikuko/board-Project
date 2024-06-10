@@ -9,10 +9,15 @@ import com.project.board.boardProject.validator.CheckEmailValidator;
 import com.project.board.boardProject.validator.CheckNicknameValidator;
 import com.project.board.boardProject.validator.CheckUsernameValidator;
 import com.project.board.boardProject.vo.LoginUser;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -79,8 +84,13 @@ public class UserController {
             model.addAttribute("user", user);
             model.addAttribute("nickName", user.getNickname());
         }
-
         return "auth/modify";
     }
 
+    @GetMapping("/auth/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {new SecurityContextLogoutHandler().logout(request, response, auth);
+            }
+        return "redirect:/post/list";}
 }

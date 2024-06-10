@@ -1,0 +1,25 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<body>
+    <div th:fragment="commentForm" >
+        <br/>
+        <div class="card">
+            <div class="card-header bi bi-chat-right-dots"> Write a Comment</div>
+            <form>
+                <input type="hidden" id="postId" th:value="${post.id}">
+                <th:block sec:authorize="isAuthenticated()">
+                    <div class="card-body">
+                        <textarea id="comment" class="form-control" rows="4" placeholder="댓글을 입력하세요"></textarea>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" id="btn-comment-submit"class="btn btn-outline-primary bi bi-pencil-square"> 등록</button>
+                    </div>
+                </th:block>
+                <th:block sec:authorize="isAnonymous()">
+                    <div class="card-body" style="font-size: small"><a th:href="@{/auth/login}">로그인</a>을 하시면 댓글을 등록할 수 있습니다.</div>
+                </th:block>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

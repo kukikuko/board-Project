@@ -4,40 +4,8 @@
       layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
     <div class="container">
-        <h1> '[[${keyword}]]'에 대한 검색 결과 </h1>
-        <div>
-            <table>
-                <thead>
-                <tr>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성일시</th>
-                    <th>조회수</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="post : ${posts}">
-                    <td>
-                        <a th:href="@{|/post/detail/${post.getId()}|}" th:text="${post.getTitle()}"></a>
-                    </td>
-                    <td th:text="${post.getWriter()}"></td>
-                    <td th:text="${post.getModifiedDate()}"></td>
-                    <td th:text="${post.getView()}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="button-container">
-            <button class="write-button" onclick="location.href='/post/write'">글쓰기</button>
-        </div>
-        <div class="pagination">
-            <a th:if="${page.hasPrevious()}" th:href="@{|/post/search?keyword=${keyword}&page=${page.number-1}|}">&laquo; 이전</a>
-            <span th:each="i : ${#numbers.sequence(0, page.totalPages-1)}">
-                <a th:if="${i != page.number}" th:href="@{|/post/search?keyword=${keyword}&page=${i}|}" th:text="${i+1}"></a>
-                <span th:if="${i == page.number}" th:text="${i+1}" class="current"></span>
-            </span>
-            <a th:if="${page.hasNext()}" th:href="@{|/post/search?keyword=${keyword}&page=${page.number+1}|}">다음 &raquo;</a>
-        </div>
+        <h1 class="p-5 text-center"> '[[${keyword}]]'에 대한 검색 결과 </h1>
+        <div th:replace="~{post/list :: posts_list}"></div>
     </div>
 </th:block>
 </html>

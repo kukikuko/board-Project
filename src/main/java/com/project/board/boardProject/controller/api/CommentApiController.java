@@ -21,16 +21,16 @@ public class CommentApiController {
         return ResponseEntity.ok(commentService.commentSave(user.getNickname(), postId, dto));
     }
 
-    @PutMapping("/post/{postId}/comments/{commentId}")
+    @PutMapping("/post/{postId}/comment/{commentId}")
     public ResponseEntity<Long> commentUpdate(@PathVariable Long postId, @PathVariable Long commentId
                     , @RequestBody CommentDto.Request dto) {
-
+        commentService.commentUpdate(postId, commentId, dto);
         return ResponseEntity.ok(commentId);
     }
 
-    @DeleteMapping("post/{postId}/comments/{commentId}")
+    @DeleteMapping("post/{postId}/comment/{commentId}")
     public ResponseEntity<Long> commentDelete(@PathVariable Long postId, @PathVariable Long commentId) {
-
+        commentService.commentDelete(postId, commentId);
         return ResponseEntity.ok(commentId);
     }
 }

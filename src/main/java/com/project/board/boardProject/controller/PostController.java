@@ -52,7 +52,7 @@ public class PostController {
         }
 
         if (user != null) {
-            model.addAttribute("user", user.getNickname());
+            model.addAttribute("user", user);
 
             if(dto.getUserId().equals(user.getId())) {
                 model.addAttribute("writer", true);

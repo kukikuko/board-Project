@@ -5,12 +5,12 @@
         <div class="text-right">
             <th:block sec:authorize="isAuthenticated()">
                 <span class="mx-3">[[${user.getNickname()}]]님 안녕하세요!</span>
-                <a href="/logout" class="btn btn-outline-dark">로그아웃</a>
-                <a href="/modify" class="btn btn-outline-dark bi bi-gear"></a>
+                <a th:href="@{/auth/logout}" class="btn btn-outline-dark">로그아웃</a>
+                <a th:href="@{/user/modify}" class="btn btn-outline-dark bi bi-gear"></a>
             </th:block>
             <th:block sec:authorize="isAnonymous()">
-                <a href="/auth/login" role="button" class="btn btn-outline-dark bi bi-lock-fill"> 로그인</a>
-                <a href="/auth/join" role="button" class="btn btn-outline-dark bi bi-person-circle"> 회원가입</a>
+                <a th:href="@{/auth/login}" role="button" class="btn btn-outline-dark bi bi-lock-fill"> 로그인</a>
+                <a th:href="@{/auth/join}" role="button" class="btn btn-outline-dark bi bi-person-circle"> 회원가입</a>
             </th:block>
         </div>
     </nav>

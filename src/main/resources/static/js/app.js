@@ -12,6 +12,64 @@ const main = {
         $('#modify').on('click', function () {
             _this.modify();
         });
+
+        document.querySelectorAll('#comment-update').forEach(function (item) {
+
+            item.addEventListener('click', function () {
+                console.log("init")
+                console.log(item)
+                const form = this.closest('form');
+                _this.commentUpdate(form);
+            });
+        });
+    },
+
+    commentUpdate : function (form) {
+        const data = {
+            id : form.querySelector('#id').value,
+            postId : form.querySelector('#postId').value,
+            comment: form.querySelector('#comment-content').value
+        }
+        if(!data.comment || data.comment.trim() === "") {
+            alert('공백 또는 입력하지 않은 부분이 있습니다.');
+            return false;
+        }
+        const con_chk = confirm("수정하시겠습니까?");
+        if (con_chk === true) {
+            $.ajax({
+                type: 'PUT',
+                url: `/api/post/${data.postId}/comment/${data.id}`,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data)
+            }).done(function () {
+                location.reload();
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+        }
+    },
+
+    commentDelete : function (postId, commentId) {
+      const con_chk = confirm("삭제하시겠습니까?");
+      if (con_chk === true) {
+          $.ajax({
+              type: 'DELETE',
+              url: `/api/post/${postId}/comment/${commentId}`,
+              beforeSend: function (xhr) {
+                  xhr.setRequestHeader(header, token);
+              },
+              dataType: 'json'
+          }).done(function () {
+              alert("댓글이 삭제되었습니다.")
+              location.reload();
+          }).fail(function (error) {
+              alert(JSON.stringify(error));
+          });
+      }
     },
 
     commentSave: function () {
@@ -81,7 +139,7 @@ const main = {
                 data: JSON.stringify(data)
             }).done(function () {
                 alert("회원수정이 완료되었습니다.");
-                window.location.href = "/";
+                window.location.href = "/post/list";
             }).fail(function (error) {
                 if (error.status === 5000) {
                     alert("이미 사용중인 닉네임입니다.");

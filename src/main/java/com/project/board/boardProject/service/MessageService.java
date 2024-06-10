@@ -7,6 +7,6 @@ public class MessageService {
 
     public String showAlert(final MsgDto msgDto, Model model) {
         model.addAttribute("msg", msgDto);
-        return "common/alert";
+        return "layout/common/alert";
     }
 }

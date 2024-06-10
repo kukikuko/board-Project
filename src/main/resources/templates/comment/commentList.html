@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<body>
+    <div th:fragment="comments">
+        <br/>
+        <div class="card">
+            <div class="card-header bi bi-chat-dots"> [[${comments.size}]] Comments</div>
+            <ul class="list-group-flush" th:each="comment : ${comments}">
+                <li id="comments-{{id}}" class="list-group-item">
+                    <span >
+                        <span style="font-size: small">[[${comment.getNickname()}]]</span>
+                        <span style="font-size: xx-small">[[${comment.getCreatedDate()}]]</span>
+                    </span>
+                    <a type="button" data-bs-toggle="collapse" href="#multi1"
+                    class="bi bi-pencil-square"></a>
+                    <!--                       th:attr="data-target='.multi-collapse-'+${comment.getId()}"-->
+                    <a type="button" th:onclick="main.commentDelete([[${post.getId()}]], [[${comment.getId()}]])"
+                    class="bi bi-x-square"></a>
+
+                    <p  th:classappend="'collapse multi-collapse-'+${comment.getId()}+' show'"
+                        th:text="${comment.getComment()}"></p>
+
+                    <div id="multi1" class="collapse multi-collapse">
+                        <form>
+                            <input type="hidden" id="id" th:value="${comment.getId()}">
+                            <input type="hidden" id="postId" th:value="${post.getId()}">
+                            <div class="form-group">
+                                <textarea class="form-control" id="comment-content" rows="3">[[${comment.getComment()}]]</textarea>
+                            </div>
+                            <button type="button" id="comment-update" class="btn btn-outline-primary bi bi-pencil-square">수정</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
