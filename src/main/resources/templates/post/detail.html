@@ -7,27 +7,27 @@
         <div class="col-md-12">
             <form class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <label for="id">번호 : [[${post.id}]]</label>
-                    <input type="hidden" id="id" value="{{posts.id}}">
-                    <label for="createdDate">[[${post.createdDate}]]</label>
+                    <label for="id">번호 : <span th:text="${post.id}" /></label>
+                    <input type="hidden" id="id" th:value="${post.id}">
+                    <label for="createdDate" th:text="${post.createdDate}"></label>
                 </div>
                 <div class="card-header d-flex justify-content-between">
-                    <label for="writer">작성자 : [[${post.writer}]]</label>
-                    <label for="view"><i class=" bi bi-eye-fill">[[${post.view}]]</i></label>
+                    <label for="writer">작성자 : <span th:text="${post.writer}" /></label>
+                    <label for="view"><i class=" bi bi-eye-fill"> <span th:text="${post.view}"/></i></label>
                 </div>
                 <div class="card-body">
                     <label for="title">제목</label>
                     <input type="text" class="form-control" id="title"  th:value="${post.title}" readonly>
                     <br/>
                     <label for="content">내용</label>
-                    <textarea rows="5" class="form-control" id="content" readonly>[[${post.content}]]</textarea>
+                    <textarea rows="5" class="form-control" id="content" readonly th:text="${post.content}"></textarea>
                 </div>
             </form>
 
             <a th:href="@{/post/list}" role="button" class="btn btn-info bi bi-arrow-return-left">목록</a>
             <th:block th:if="${writer}">
-                <a th:href="@{/posts/update/{id}}" role="button" class="btn btn-primary bi bi-pencil-square">수정</a>
-                <button type="button" onclick="" id="btn-delete" class="btn btn-danger bi bi-trash">삭제</button>
+                <a th:href="@{/post/update/{id}(id=${post.id})}" role="button" class="btn btn-primary bi bi-pencil-square">수정</a>
+                <button type="button" onclick="" id="btn-post-delete" class="btn btn-danger bi bi-trash">삭제</button>
             </th:block>
         </div>
         <div th:replace="~{comment/commentList :: comments}"></div>

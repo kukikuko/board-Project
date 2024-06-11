@@ -1,9 +1,9 @@
 package com.project.board.boardProject.controller.api;
 
 import com.project.board.boardProject.dto.CommentDto;
-import com.project.board.boardProject.dto.UserSessionDto;
+import com.project.board.boardProject.dto.UserDto;
 import com.project.board.boardProject.service.CommentService;
-import com.project.board.boardProject.vo.LoginUser;
+import com.project.board.boardProject.ex.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ public class CommentApiController {
 
     @PostMapping("/post/{postId}/comment")
     public ResponseEntity commentSave(@PathVariable Long postId, @RequestBody CommentDto.Request dto
-                    , @LoginUser UserSessionDto user) {
+                    , @LoginUser UserDto.Response user) {
         return ResponseEntity.ok(commentService.commentSave(user.getNickname(), postId, dto));
     }
 

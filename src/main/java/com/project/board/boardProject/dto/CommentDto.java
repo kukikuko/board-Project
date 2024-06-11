@@ -43,6 +43,7 @@ public class CommentDto {
         private String modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         private String nickname;
         private Long postId;
+        private Long userId;
 
         /* Entity -> Dto */
         public Response(Comment comment) {
@@ -52,6 +53,7 @@ public class CommentDto {
             this.createdDate = comment.getCreatedDate();
             this.nickname = comment.getUser().getNickname();
             this.postId = comment.getPost().getId();
+            this.userId = comment.getUser().getId();
         }
     }
 }

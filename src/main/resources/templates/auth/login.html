@@ -20,9 +20,12 @@
                     </th:block>
                 </span>
                 <button class="form-control btn btn-primary bi bi-lock-fill"> 로그인</button>
-                <a type="button" th:href="@{/oauth2/authorization/naver}">네이버</a>
-                <a type="button" th:href="@{/oauth2/authorization/kakao}">카카오</a>
-                <a type="button" th:href="@{/oauth2/authorization/google}">구글</a>
+                <a href="#" role="button" class="btn btn-outline-danger bi bi-google"> 로그인</a>
+                <a href="#" role="button" class="btn btn-outline-success"><img class="snsImg" src="/images/naver.ico"/> 로그인</a>
+                <a href="#" role="button" class="btn btn-outline-success"><img class="snsImg" src="/images/naver.ico"/> 로그인</a>
+<!--                <a type="button" th:href="@{/oauth2/authorization/naver}">네이버</a>-->
+<!--                <a type="button" th:href="@{/oauth2/authorization/kakao}">카카오</a>-->
+<!--                <a type="button" th:href="@{/oauth2/authorization/google}">구글</a>-->
             </form>
         </div>
     </div>

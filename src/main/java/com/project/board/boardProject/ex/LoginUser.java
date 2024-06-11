@@ -1,4 +1,4 @@
-package com.project.board.boardProject.vo;
+package com.project.board.boardProject.ex;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

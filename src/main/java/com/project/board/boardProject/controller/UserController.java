@@ -2,17 +2,15 @@ package com.project.board.boardProject.controller;
 
 import com.project.board.boardProject.dto.MsgDto;
 import com.project.board.boardProject.dto.UserDto;
-import com.project.board.boardProject.dto.UserSessionDto;
 import com.project.board.boardProject.service.MessageService;
 import com.project.board.boardProject.service.UserService;
 import com.project.board.boardProject.validator.CheckEmailValidator;
 import com.project.board.boardProject.validator.CheckNicknameValidator;
 import com.project.board.boardProject.validator.CheckUsernameValidator;
-import com.project.board.boardProject.vo.LoginUser;
+import com.project.board.boardProject.ex.LoginUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -79,7 +77,7 @@ public class UserController {
     }
 
     @GetMapping("/user/modify")
-    public String modify(@LoginUser UserSessionDto user, Model model) {
+    public String modify(@LoginUser UserDto.Response user, Model model) {
         if(user != null) {
             model.addAttribute("user", user);
             model.addAttribute("nickName", user.getNickname());

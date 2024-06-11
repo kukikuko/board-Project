@@ -1,9 +1,9 @@
 package com.project.board.boardProject.service;
 
-import com.project.board.boardProject.dto.UserSessionDto;
+import com.project.board.boardProject.dto.UserDto;
 import com.project.board.boardProject.entity.User;
 import com.project.board.boardProject.repository.UserRepository;
-import com.project.board.boardProject.vo.OAuthAttributes;
+import com.project.board.boardProject.ex.OAuthAttributes;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         User user = saveOrUpdate(attributes);
 
-        httpSession.setAttribute("user", new UserSessionDto(user));
+        httpSession.setAttribute("user", new UserDto.Response(user));
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(user.getRoleValue())),

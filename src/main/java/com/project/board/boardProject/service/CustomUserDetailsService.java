@@ -1,7 +1,6 @@
 package com.project.board.boardProject.service;
 
 import com.project.board.boardProject.dto.UserDto;
-import com.project.board.boardProject.dto.UserSessionDto;
 import com.project.board.boardProject.entity.User;
 import com.project.board.boardProject.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -24,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         User user = userRepository.findByUsername(username).orElseThrow(() ->
                 new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-        httpSession.setAttribute("user", new UserSessionDto(user));
+        httpSession.setAttribute("user", new UserDto.Response(user));
 
         return new CustomerDetails(user);
     }

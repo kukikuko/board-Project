@@ -1,8 +1,8 @@
 package com.project.board.boardProject.config.resolver;
 
 
-import com.project.board.boardProject.dto.UserSessionDto;
-import com.project.board.boardProject.vo.LoginUser;
+import com.project.board.boardProject.dto.UserDto;
+import com.project.board.boardProject.ex.LoginUser;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -22,7 +22,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     public boolean supportsParameter(MethodParameter parameter) {
 
         boolean isLoginUserAnnotation = parameter.getParameterAnnotation(LoginUser.class) != null;
-        boolean isUserClass = UserSessionDto.class.equals(parameter.getParameterType());
+        boolean isUserClass = UserDto.Response.class.equals(parameter.getParameterType());
 
         return isLoginUserAnnotation && isUserClass;
     }

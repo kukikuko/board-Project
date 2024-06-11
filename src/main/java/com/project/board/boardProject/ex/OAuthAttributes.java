@@ -1,4 +1,4 @@
-package com.project.board.boardProject.vo;
+package com.project.board.boardProject.ex;
 
 import com.project.board.boardProject.entity.Role;
 import com.project.board.boardProject.entity.User;

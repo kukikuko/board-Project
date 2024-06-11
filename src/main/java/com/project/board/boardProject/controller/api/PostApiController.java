@@ -1,27 +1,35 @@
 package com.project.board.boardProject.controller.api;
 
 import com.project.board.boardProject.dto.PostDto;
-import com.project.board.boardProject.dto.UserSessionDto;
-import com.project.board.boardProject.entity.Post;
+import com.project.board.boardProject.dto.UserDto;
 import com.project.board.boardProject.service.PostService;
-import com.project.board.boardProject.vo.LoginUser;
+import com.project.board.boardProject.ex.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("api")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @RestController
 public class PostApiController {
 
     private final PostService postService;
 
-    @PostMapping("/posts")
-    public ResponseEntity save(@RequestBody PostDto.Request request, @LoginUser UserSessionDto userSessionDto) {
-        return ResponseEntity.ok(postService.save(request, userSessionDto.getNickname()));
+    @PostMapping("/post")
+    public ResponseEntity save(@RequestBody PostDto.Request dto, @LoginUser UserDto.Response user) {
+        return ResponseEntity.ok(postService.save(dto, user.getNickname()));
+    }
+
+    @PutMapping("/post/{id}")
+    public ResponseEntity update(@PathVariable Long id, @RequestBody PostDto.Request dto) {
+        postService.update(id, dto);
+        return ResponseEntity.ok(id);
+    }
+
+    @DeleteMapping("/post/{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
+        postService.delete(id);
+        return ResponseEntity.ok(id);
     }
 
 }

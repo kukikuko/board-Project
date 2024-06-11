@@ -5,12 +5,24 @@ const main = {
     init: function () {
         const _this = this;
 
-        $('#btn-comment-submit').on('click', function () {
-            _this.commentSave();
+        $('#btn-post-save').on('click', function () {
+            _this.postSave();
         });
 
-        $('#modify').on('click', function () {
-            _this.modify();
+        $('#btn-post-update').on('click', function () {
+            _this.postUpdate();
+        })
+
+        $('#btn-post-delete').on().click(function () {
+            _this.postDelete();
+        });
+
+        $('#btn-user-modify').on('click', function () {
+            _this.userModify();
+        });
+
+        $('#btn-comment-submit').on('click', function () {
+            _this.commentSave();
         });
 
         document.querySelectorAll('#comment-update').forEach(function (item) {
@@ -22,6 +34,95 @@ const main = {
                 _this.commentUpdate(form);
             });
         });
+    },
+
+    postSave : function () {
+        const data = {
+            title : $('#title').val(),
+            content : $('#content').val(),
+            writer : $('#writer').val()
+        }
+
+        if (!data.title || data.title.trim() === "" || !data.content || data.content.trim() === "") {
+            alert("공백 또는 입력하지 않은 부분이 있습니다.");
+            return false;
+        } else {
+            if(confirm("등록하시겠습니까?")) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/post',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(data)
+                }).done(function () {
+                    alert("게시물이 등록되었습니다.")
+                    window.location.href = "/post/list";
+                }).fail(function (error) {
+                    alert(JSON.stringify(error));
+                });
+            }
+        }
+    },
+
+    postUpdate : function () {
+        const data = {
+            id : $('#id').val(),
+            title : $('#title').val(),
+            content : $('#content').val(),
+        }
+
+        console.log(data);
+
+        if(!data.title || data.title.trim() === "" || !data.content || data.content.trim() === "") {
+            alert('공백 또는 입력하지 않은 부분이 있습니다.');
+            return false;
+        } else {
+            if(confirm("수정하시겠습니까?")) {
+                $.ajax({
+                    type: 'PUT',
+                    url: `/api/post/${data.id}`,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(data)
+                }).done(function () {
+                    alert("게시물이 수정되었습니다.")
+                    window.location.href = "/post/detail/"+data.id;
+                }).fail(function (error) {
+                    alert(JSON.stringify(error));
+                });
+            }
+        }
+
+    },
+
+    postDelete : function () {
+        const data = {
+            id : $('#id').val()
+        }
+        if(confirm("삭제하시겠습니까?")) {
+            $.ajax({
+                type: 'DELETE',
+                url: `/api/post/${data.id}`,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data)
+            }).done(function () {
+                alert("게시물이 삭제되었습니다.")
+                window.location.href = "/post/list";
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+        }
+
     },
 
     commentUpdate : function (form) {
@@ -54,8 +155,7 @@ const main = {
     },
 
     commentDelete : function (postId, commentId) {
-      const con_chk = confirm("삭제하시겠습니까?");
-      if (con_chk === true) {
+      if (confirm("삭제하시겠습니까?")) {
           $.ajax({
               type: 'DELETE',
               url: `/api/post/${postId}/comment/${commentId}`,
@@ -105,7 +205,7 @@ const main = {
         }
     },
 
-    modify: function () {
+    userModify: function () {
         const data = {
             id: $('#id').val(),
             modifiedDate: $('#modifiedDate').val(),

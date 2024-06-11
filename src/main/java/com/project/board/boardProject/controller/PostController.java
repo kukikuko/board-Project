@@ -1,10 +1,11 @@
 package com.project.board.boardProject.controller;
 
-import com.project.board.boardProject.dto.*;
+import com.project.board.boardProject.dto.CommentDto;
+import com.project.board.boardProject.dto.PostDto;
+import com.project.board.boardProject.dto.UserDto;
 import com.project.board.boardProject.entity.Post;
-import com.project.board.boardProject.service.MessageService;
+import com.project.board.boardProject.ex.LoginUser;
 import com.project.board.boardProject.service.PostService;
-import com.project.board.boardProject.vo.LoginUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -27,7 +30,7 @@ public class PostController {
 
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC)
-            Pageable pageable, @LoginUser UserSessionDto user) {
+            Pageable pageable, @LoginUser UserDto.Response user) {
 
         if (user != null) {
             model.addAttribute("user", user);
@@ -40,7 +43,7 @@ public class PostController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable Long id, @LoginUser UserSessionDto user, Model model) {
+    public String detail(@PathVariable Long id, @LoginUser UserDto.Response user, Model model) {
 
         PostDto.Response dto = postService.findById(id);
         List<CommentDto.Response> comments = dto.getComments();
@@ -57,6 +60,12 @@ public class PostController {
             if(dto.getUserId().equals(user.getId())) {
                 model.addAttribute("writer", true);
             }
+
+            for (CommentDto.Response comment : comments) {
+                boolean isWriter = comment.getUserId().equals(user.getId());
+                log.info("Writer : {}", isWriter);
+                model.addAttribute("isWriter", isWriter);
+            }
         }
 
         postService.updateView(id);
@@ -67,7 +76,7 @@ public class PostController {
 
     @GetMapping("/search")
     public String search(Model model, String keyword, @PageableDefault(sort = "id", direction = Sort.Direction.DESC)
-            Pageable pageable, @LoginUser UserSessionDto user) {
+            Pageable pageable, @LoginUser UserDto.Response user) {
 
         if (user != null) {
             model.addAttribute("user", user);
@@ -82,7 +91,7 @@ public class PostController {
     }
 
     @GetMapping("/write")
-    public String save(Model model, @LoginUser UserSessionDto user) {
+    public String save(Model model, @LoginUser UserDto.Response user) {
 
         if (user != null) {
             model.addAttribute("user", user);
@@ -91,17 +100,17 @@ public class PostController {
         return "post/write";
     }
 
-    @PostMapping("/write")
-    public String save(PostDto.Request postDto, Model model, @LoginUser UserSessionDto user) {
+    @GetMapping("/update/{id}")
+    public String update(@PathVariable Long id, Model model, @LoginUser UserDto.Response user) {
 
         if (user != null) {
             model.addAttribute("user", user);
         }
 
-        postService.save(postDto, user.getNickname());
-        MsgDto msgDto = new MsgDto("글쓰기 완료", "/post/list", RequestMethod.GET);
+        PostDto.Response dto = postService.findById(id);
+        log.info("post : {}", dto);
+        model.addAttribute("post", dto);
 
-        return new MessageService().showAlert(msgDto, model);
+        return "post/update";
     }
-
 }
