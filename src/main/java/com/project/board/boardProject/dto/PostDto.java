@@ -1,6 +1,5 @@
 package com.project.board.boardProject.dto;
 
-import com.project.board.boardProject.entity.Comment;
 import com.project.board.boardProject.entity.Post;
 import com.project.board.boardProject.entity.User;
 import lombok.*;

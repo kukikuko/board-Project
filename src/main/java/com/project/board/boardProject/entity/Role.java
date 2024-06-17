@@ -1,6 +1,7 @@
 package com.project.board.boardProject.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor

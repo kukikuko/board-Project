@@ -2,8 +2,8 @@ package com.project.board.boardProject.controller.api;
 
 import com.project.board.boardProject.dto.PostDto;
 import com.project.board.boardProject.dto.UserDto;
-import com.project.board.boardProject.service.PostService;
 import com.project.board.boardProject.ex.LoginUser;
+import com.project.board.boardProject.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

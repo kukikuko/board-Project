@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @AllArgsConstructor
 public class CustomerDetails implements UserDetails {

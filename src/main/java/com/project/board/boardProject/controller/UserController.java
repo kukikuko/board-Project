@@ -2,12 +2,12 @@ package com.project.board.boardProject.controller;
 
 import com.project.board.boardProject.dto.MsgDto;
 import com.project.board.boardProject.dto.UserDto;
+import com.project.board.boardProject.ex.LoginUser;
 import com.project.board.boardProject.service.MessageService;
 import com.project.board.boardProject.service.UserService;
 import com.project.board.boardProject.validator.CheckEmailValidator;
 import com.project.board.boardProject.validator.CheckNicknameValidator;
 import com.project.board.boardProject.validator.CheckUsernameValidator;
-import com.project.board.boardProject.ex.LoginUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;

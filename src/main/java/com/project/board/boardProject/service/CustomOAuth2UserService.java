@@ -2,8 +2,8 @@ package com.project.board.boardProject.service;
 
 import com.project.board.boardProject.dto.UserDto;
 import com.project.board.boardProject.entity.User;
-import com.project.board.boardProject.repository.UserRepository;
 import com.project.board.boardProject.ex.OAuthAttributes;
+import com.project.board.boardProject.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
